@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh './index-build.js'
+                sh 'index-build.js'
             }
         }
         stage('Deliver') {
