@@ -1,29 +1,20 @@
-FROM  phusion/baseimage:0.9.17
+FROM node:4.3.2
 
-MAINTAINER  Author Name <author@email.com>
+RUN useradd --user-group --create-home --shell /bin/false app &&\
+  npm install --global npm@3.7.5
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
+ENV HOME=/home/app
 
-RUN apt-get -y update
+COPY package.json npm-shrinkwrap.json $HOME/library/
+RUN chown -R app:app $HOME/*
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -q python-software-properties software-properties-common
+USER app
+WORKDIR $HOME/library
+RUN npm cache clean && npm install --silent --progress=false
 
-ENV JAVA_VER 8
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+USER root
+COPY . $HOME/library
+RUN chown -R app:app $HOME/*
+USER app
 
-RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' >> /etc/apt/sources.list && \
-    echo 'deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' >> /etc/apt/sources.list && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886 && \
-    apt-get update && \
-    echo oracle-java${JAVA_VER}-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections && \
-    apt-get install -y --force-yes --no-install-recommends oracle-java${JAVA_VER}-installer oracle-java${JAVA_VER}-set-default && \
-    apt-get clean && \
-    rm -rf /var/cache/oracle-jdk${JAVA_VER}-installer
-
-RUN update-java-alternatives -s java-8-oracle
-
-RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> ~/.bashrc
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-CMD ["/sbin/my_init"]
+CMD ["npm", "start"]
