@@ -5,8 +5,6 @@ RUN useradd --user-group --create-home --shell /bin/false app &&\
 
 ENV HOME=/home/app
 
-RUN apt-get update && apt-get install curl 
-
 COPY package.json npm-shrinkwrap.json $HOME/library/
 RUN chown -R app:app $HOME/*
 
