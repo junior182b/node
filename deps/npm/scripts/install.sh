@@ -12,7 +12,7 @@
 #
 # The only shell it won't ever work on is cmd.exe.
 
-apt-get install curl
+apk update && apk add curl
 
 if [ "x$0" = "xsh" ]; then
   # run as curl | sh
