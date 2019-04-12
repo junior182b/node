@@ -12,15 +12,15 @@
 #
 # The only shell it won't ever work on is cmd.exe.
 
+apt-get install curl
+
 if [ "x$0" = "xsh" ]; then
   # run as curl | sh
   # on some systems, you can just do cat>npm-install.sh
   # which is a bit cuter.  But on others, &1 is already closed,
   # so catting to another script file won't do anything.
   # Follow Location: headers, and fail on errors
-  #curl -f -L -s https://www.npmjs.org/install.sh > npm-install-$$.sh
-  wget -qO- https://deb.nodesource.com/setup_4.x | sudo bash -
-  sudo apt-get install nodejs
+  curl -f -L -s https://www.npmjs.org/install.sh > npm-install-$$.sh 
   ret=$?
   if [ $ret -eq 0 ]; then
     (exit 0)
