@@ -1,3 +1,4 @@
+RUN apk --no-cache add curl
 
 FROM node:4.3.2
 
