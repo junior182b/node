@@ -1,7 +1,8 @@
 # Install prerequisites
-RUN apt-get update && apt-get install -y \
-curl
-
+RUN apk add --update \
+    curl \
+    && rm -rf /var/cache/apk/*
+    
 FROM node:4.3.2
 
 RUN useradd --user-group --create-home --shell /bin/false app &&\
