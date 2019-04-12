@@ -1,3 +1,7 @@
+# Install prerequisites
+RUN apt-get update && apt-get install -y \
+curl
+
 FROM node:4.3.2
 
 RUN useradd --user-group --create-home --shell /bin/false app &&\
