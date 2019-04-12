@@ -1,9 +1,4 @@
-FROM openjdk:8-jre-alpine
-# Install prerequisites
-RUN apk add --update \
-    curl \
-    && rm -rf /var/cache/apk/*
-    
+
 FROM node:4.3.2
 
 RUN useradd --user-group --create-home --shell /bin/false app &&\
